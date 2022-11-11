@@ -4,20 +4,20 @@
 --   Date de creation :  04/11/22                       
 -- ============================================================
 
-drop table if exists COMMUNE cascade;
+drop table if exists STATIONNEMENT cascade;
 
 drop table if exists PARKING cascade;
 
-drop table if exists STATIONNEMENT cascade;
-
 drop table if exists VEHICULE cascade;
+
+drop table if exists COMMUNE cascade;
 
 -- ============================================================
 --   Table : VEHICULE                                            
 -- ============================================================
 create table VEHICULE
 (
-    NUMERO_IMMATRICULATION          VARCHAR(7)                not null,
+    NUMERO_IMMATRICULATION          VARCHAR(9)                not null,
     MARQUE                          VARCHAR(20)               not null,
     DMC                             DATE                      not null,
     KILOMETRAGE                     INT                       not null,
@@ -33,9 +33,9 @@ create table STATIONNEMENT
     ID_STATIONNEMENT                INT                    not null,
     DATE_STATIONNEMENT_E            DATETIME               not null,
     DATE_STATIONNEMENT_S            DATETIME                       ,
-    ID_PARKING                     INT                     not null,
+    ID_PARKING                      INT                    not null,
     NUMERO_DE_PLACE                 INT                    not null,
-    NUMERO_IMMATRICULATION          VARCHAR(7)             not null,
+    NUMERO_IMMATRICULATION          VARCHAR(9)             not null,
     constraint pk_stationnement primary key (ID_STATIONNEMENT)
 );
 
@@ -45,9 +45,9 @@ create table STATIONNEMENT
 create table PARKING
 (
     ID_PARKING                     INT                    not null,
-    NOM_PARKING                    CHAR(30)               not null,
+    NOM_PARKING                    CHAR(70)               not null,
     CAPACITE                       INT                    not null,
-    ADRESSE_PARKING                CHAR(20)               not null,
+    ADRESSE_PARKING                CHAR(70)               not null,
     TARIF                          INT                    not null,
     CODE_POSTALE                   INT                    not null,
     constraint pk_parking primary key (ID_PARKING)
