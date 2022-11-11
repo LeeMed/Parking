@@ -1,6 +1,6 @@
 -- ============================================================
 --   Nom de la base   :  Parking                                
---   Nom de SGBD      :  ORACLE Version 7.0                    
+--   Nom de SGBD      :  MYSQL Version 8.0.31                    
 --   Date de creation :  04/11/22                       
 -- ============================================================
 
