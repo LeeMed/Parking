@@ -30,11 +30,11 @@ TabVehicule=['Alfa Romeo','Aston Martin','Audi','Dacia','Benelli','BMW','Bugatti
 
 def dmc_generator():
     m=randint(1,12)
-    return [day_generator(m),m,2010+randint(0,12)]
+    return [day_generator(m), m, 2010 + randint(0,12)]
 
 def kil_generator(year):
     moykil= 15000
-    return (2023-year)*moykil+randint(0,999)
+    return (2023-year) * moykil + randint(0,999)
 
 TabEtat=['Excellent état','Très bon état',' Bon état','État correct','Mauvaise état']
 def state_generator(kilo):
