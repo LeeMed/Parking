@@ -3,6 +3,7 @@ body {
     background-color: rgb(200, 200, 200);
     font-family: arial, sans-serif;
     font-size: 14px;
+    overflow-y: scroll;
   }
   
   li {
@@ -51,3 +52,15 @@ body {
   .active {
     background-color: #04AA6D;
   }
+
+
+  /* CITY WRAPPER */
+
+
+.city-wrapper{
+  height: 10px;
+  width: 10px;
+  display: grid;
+  grid-template-columns: auto;
+  column-gap: 1vh;
+}
