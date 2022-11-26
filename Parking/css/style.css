@@ -14,11 +14,12 @@ body {
     float: left;
   }
   
-  a {
+  a, .opener  {
     display: block;
     padding: 8px;
     background-color: #333;
   }
+
 
 
   ul {
@@ -37,15 +38,16 @@ body {
     float: left;
   }
   
-  li a {
+  li a, li .opener {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    cursor: pointer;
   }
 
-  li a:hover {
+  li a:hover, li .opener:hover {
     background-color: #111;
   }
 
@@ -63,4 +65,16 @@ body {
   display: grid;
   grid-template-columns: auto;
   column-gap: 1vh;
+}
+
+.links{
+  position: absolute;
+  left: 7.2vw;
+  top: 8.4vh;
+  display: none;
+  grid-template-columns: auto;
+}
+
+.links.isActive{
+  display: grid;
 }
