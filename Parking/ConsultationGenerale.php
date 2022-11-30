@@ -1,6 +1,6 @@
 <?php echo file_get_contents("html/header.html"); ?>
 <h1>
-  This is the Consultation page
+  Consultation générale :
 </h1>
 <?php
 $servername = "localhost";
@@ -14,6 +14,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+
+
+
 
 $sql = "SELECT * FROM COMMUNE";
 $result = $conn->query($sql);
