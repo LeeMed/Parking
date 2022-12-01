@@ -237,14 +237,14 @@ commit ;
 
 -- STATIONNEMENT
 
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , '2022-02-01 12:12:12' ,1, 1,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 2 , '2022-03-01 12:12:12' , '2022-04-01 12:12:12' ,1, 2,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , null,1, 3,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , null,1, 4,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , null,1, 5,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , null,1, 6,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , null,1, 7,'LI 743 RP' ) ;
-insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , null,1, 8,'LI 743 RP' ) ;
+insert into STATIONNEMENT values ( 1 , '2022-01-01 12:12:12' , '2022-01-01 14:12:12' ,1, 1,'LI 743 RP' ) ;
+insert into STATIONNEMENT values ( 2 , '2022-01-01 12:10:12' , '2022-01-02 12:12:12' ,1, 2,'LP 108 OC' ) ;
+insert into STATIONNEMENT values ( 3 , '2022-01-02 13:12:12' , '2022-01-03 12:12:12',1, 3,'LI 743 RP' ) ;
+insert into STATIONNEMENT values ( 4 , '2022-01-01 08:12:12' ,'2022-04-01 12:12:12',1, 4,'FK 341 VP' ) ;
+insert into STATIONNEMENT values ( 5 , '2022-01-05 12:12:12' , '2022-01-05 12:19:12',1, 5,'KD 186 IR' ) ;
+insert into STATIONNEMENT values ( 6 , '2022-01-01 10:12:12' , '2022-04-01 12:12:12',1, 6,'BV 346 MS' ) ;
+insert into STATIONNEMENT values ( 7 , '2022-01-04 18:12:12' , '2022-01-06 12:12:12',1, 7,'BV 346 MS' ) ;
+insert into STATIONNEMENT values ( 8 , '2022-01-03 11:12:12' , null,1, 8,'LI 743 RP' ) ;
 
 commit ;
 
