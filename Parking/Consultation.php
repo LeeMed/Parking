@@ -40,9 +40,9 @@ function changeDate($date)
 if (array_key_exists('submit', $_POST)) {
   $d = changeDate($_POST['datetime']);
 ?>
-  <h1>
+  <h2>
     Liste des places disponibles :
-  </h1>
+  </h2>
   <?php
   $sql = "SELECT * FROM COMMUNE";
   $result = $conn->query($sql);
@@ -148,7 +148,7 @@ if (array_key_exists('submit', $_POST)) {
 
   ?>
 
-  <h1> La liste des parkings saturés à un moment donné </h1>
+  <h2> La liste des parkings saturés à un moment donné </h2>
 
 <?php
 
@@ -168,7 +168,7 @@ if (array_key_exists('submit', $_POST)) {
   }
 ?>
 
-<h1> 2 cars </h1>
+<h2> 2 cars </h2>
 
 <?php
 
