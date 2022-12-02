@@ -6,6 +6,29 @@ import random
 
 
 
+######################
+
+
+print("-- ============================================================\n"
+"--    suppression des donnees\n"
+"-- ============================================================\n"
+
+"delete from COMMUNE ;\n"
+"delete from PARKING ;\n"
+"delete from STATIONNEMENT ;\n"
+"delete from VEHICULE ;\n"
+
+"commit ;\n"
+
+"-- ============================================================\n"
+"--    creation des donnees\n"
+"-- ============================================================\n"
+)
+print("\n")
+
+######################
+
+
 def day_generator(j):
     if (j == 2):
         return randint(1, 28)
@@ -16,7 +39,8 @@ def day_generator(j):
 
 #######VEHICULE##############
 
-max_vehicule = 100
+max_vehicule = 400
+imm = []
 
 def imm_generator(chars=string.ascii_uppercase,strings=string.digits):
     return random.choice(chars)+random.choice(chars)+' '+random.choice(strings)+random.choice(strings)+random.choice(strings)+' '+random.choice(chars)+random.choice(chars)
@@ -30,11 +54,11 @@ TabVehicule=['Alfa Romeo','Aston Martin','Audi','Dacia','Benelli','BMW','Bugatti
 
 def dmc_generator():
     m=randint(1,12)
-    return [day_generator(m), m, 2010 + randint(0,12)]
+    return [day_generator(m),m,2010+randint(0,12)]
 
 def kil_generator(year):
     moykil= 15000
-    return (2023-year) * moykil + randint(0,999)
+    return (2023-year)*moykil+randint(0,999)
 
 TabEtat=['Excellent état','Très bon état',' Bon état','État correct','Mauvaise état']
 def state_generator(kilo):
@@ -56,8 +80,9 @@ def makeVehicule():
     print("\n")
     for i in range(0,max_vehicule):
         dmc=dmc_generator()
-        kil=kil_generator(dmc[2]) 
-        print("insert into VEHICULE values ('{}' ,'{}' ,'{}-{}-{}' ,{}, '{}');".format(imm_generator(),TabVehicule[randint(0,len(TabVehicule)-1 ) ],dmc[2],dmc[1],dmc[0],kil,state_generator(kil)  )   )
+        kil=kil_generator(dmc[2])
+        imm.append(imm_generator())
+        print("insert into VEHICULE values ('{}' ,'{}' ,'{}-{}-{}' ,{}, '{}');".format(imm[i],TabVehicule[randint(0,len(TabVehicule)-1 ) ],dmc[2],dmc[1],dmc[0],kil,state_generator(kil)  )   )
     print("\n")
     print("commit ;")
 
@@ -67,6 +92,33 @@ def makeVehicule():
 
 
 #######PARKING###############
+#Bordeaux#
+TabParking=[("Parking Pey Berland",33000,"Place pey berland"),
+("Parking Gambetta",33000,"Rue Edmond Michelet"),
+("Parking Alsace-Lorraine",33000,"21 cours Alsace-Lorraine"),
+#("Parking Cité Mondiale",33000,"20 Quai des Chartrons"),
+#("Parking Sainte Catherine",33000,"15 rue Honoré Tessier"),
+#("Parking Victoire",33000,"Place de la Victoire"),
+#("Parking Les Capucins",33000,"Rue Emile Laparra"),
+            
+
+#Pessac#
+("Parking Carreire",33600,"4 rue du Docteur Rocaz"),
+("Parking Hôtel PREMIERE CLASSE PESSAC",33600,"4 Bis Avenue Antoine-Becquerel"),
+("Parking Côte D Argent",33600,"23 Chemin Pomerol"),
+#("Parking Castellane",33600,"33 Chemin Pomerol"),
+#("Parking Schoelcher",33600,"20 rue Pierre Curie"),
+
+#Merignac#
+("Parking Monge",33700,"17 rue Gracieuse"),
+("Parking Poliveau",33700,"39 bis rue Poliveau"),
+#("Parking Marché Saint Germain",33700,"Face au 1  Rue Lobineau"),
+#("Parking Bac Montalembert",33700,"9 rue Montalembert"),
+#("Parking Gouraud ",33700,"5 ave Emile Pouvillon"),
+("Parking Champagny" ,33700,"Face au 13 rue Casimir Perrier")]
+
+
+"""
 #Paris#
 TabParking=[("Parking Louvre Pyramides",75056,"15 rue des Pyramides"),
 ("Parking Les Halles- Saint Eustache",75056,"22 Rue des Halles"),
@@ -76,23 +128,31 @@ TabParking=[("Parking Louvre Pyramides",75056,"15 rue des Pyramides"),
 ("Parking Lagrange-Maubert Notre-Dame",75056,"15 rue Lagrange"),
 ("Parking Polytechnique",75056,"Impasse J H Lartigue"),
 
-#Bordeaux#
-("Parking Pey Berland",33063,"Place pey berland"),
-("Parking Gambetta",33063,"Rue Edmond Michelet"),
-("Parking Alsace-Lorraine",33063,"21 cours Alsace-Lorraine"),
-("Parking Cité Mondiale",33063,"20 Quai des Chartrons"),
-("Parking Sainte Catherine",33063,"15 rue Honoré Tessier"),
-("Parking Victoire",33063,"Place de la Victoire"),
-("Parking Les Capucins",33063,"Rue Emile Laparra"), 
+#Marseille#
+("Parking Gare Saint Charles",13055,"1 avenue Pierre Semard"),
+("Parking Sainte Barbe",13055,"16 rue Sainte Barbe"),
+("Parking Gare Saint-Charles",13055,"15 Boulevard Maurice Bourdet "),
+("Parking Grand Garage Méditerranéen",13055,"44 place aux Huiles"),
+("Parking Saint Charles Services",13055,"36 boulevard Charles Nédelec" ),
+("Parking Cours Julien",13055,"Cours Julien"),
+("Parking Estienne d Orves",13055,"Place aux Huiles"),
 
-#Merignac#
-("Parking Monge",33281,"17 rue Gracieuse"),
-("Parking Poliveau",33281,"39 bis rue Poliveau"),
-("Parking Marché Saint Germain",33281,"Face au 1  Rue Lobineau"),
-("Parking Bac Montalembert",33281,"9 rue Montalembert"),
-("Parking Gouraud ",33281,"5 ave Emile Pouvillon"),
-("Parking Champagny" ,33281,"Face au 13 rue Casimir Perrier"),
+#Lyon#
+("Parking Immeuble CARDINAL CAMPUS" ,69123,"25 rue Pauline Kergomard"),
+("Parking La Guillotière- Bonnefoi",69123,"4-6 rue Bonnefoi"),
+("Parking Immeuble FAC-HABITAT LA GUILLOTIÈRE" ,69123,"14 rue du Docteur Crestin"),
+("Parking Immeuble CARDINAL CAMPUS BUTTERFLY ",69123,"40 Route de Vienne"),
+("Parking Gare Jean Macé",69123,"24 rue Gerland"),
+("Parking Bellecour - Campanile",69123,"4-6 Rue Mortier"),
 
+#Pessac#
+("Parking Carreire",33600,"4 rue du Docteur Rocaz"),
+("Parking Hôtel PREMIERE CLASSE PESSAC",33600,"4 Bis Avenue Antoine-Becquerel"),
+("Parking Côte D Argent",33600,"23 Chemin Pomerol"),
+("Parking Castellane",33600,"33 Chemin Pomerol"),
+("Parking Schoelcher",33600,"20 rue Pierre Curie")]
+
+            
 #Toulouse#
 ("Parking Madeleine-Tronchet ",31555,"Face au 21 place de la Madeleine"),
 ("Parking Haussmann Berri ",31555,"Face au 155 Bvd Hausmann"),
@@ -157,30 +217,7 @@ TabParking=[("Parking Louvre Pyramides",75056,"15 rue des Pyramides"),
 ("Parking Centre-Ville",37261,"Face au 13 rue Albert Guilpin"),
 ("Parking Hôpital Henri Mondor",37261,"1 rue Gustave Eiffel"),
 ("Parking Joinville ",37261,"23 rue de Paris"),
-
-#Marseille#
-("Parking Gare Saint Charles",13055,"1 avenue Pierre Semard"),
-("Parking Sainte Barbe",13055,"16 rue Sainte Barbe"),
-("Parking Gare Saint-Charles",13055,"15 Boulevard Maurice Bourdet "),
-("Parking Grand Garage Méditerranéen",13055,"44 place aux Huiles"),
-("Parking Saint Charles Services",13055,"36 boulevard Charles Nédelec" ),
-("Parking Cours Julien",13055,"Cours Julien"),
-("Parking Estienne d Orves",13055,"Place aux Huiles"),
-
-#Lyon#
-("Parking Immeuble CARDINAL CAMPUS" ,69123,"25 rue Pauline Kergomard"),
-("Parking La Guillotière- Bonnefoi",69123,"4-6 rue Bonnefoi"),
-("Parking Immeuble FAC-HABITAT LA GUILLOTIÈRE" ,69123,"14 rue du Docteur Crestin"),
-("Parking Immeuble CARDINAL CAMPUS BUTTERFLY ",69123,"40 Route de Vienne"),
-("Parking Gare Jean Macé",69123,"24 rue Gerland"),
-("Parking Bellecour - Campanile",69123,"4-6 Rue Mortier"),
-
-#Pessac#
-("Parking Carreire",33318,"4 rue du Docteur Rocaz"),
-("Parking Hôtel PREMIERE CLASSE PESSAC",33318,"4 Bis Avenue Antoine-Becquerel"),
-("Parking Côte D Argent",33318,"23 Chemin Pomerol"),
-("Parking Castellane",33318,"33 Chemin Pomerol"),
-("Parking Schoelcher",33318,"20 rue Pierre Curie")]
+"""
 
 
 def makeParking():
@@ -190,7 +227,7 @@ def makeParking():
     i =0
     for (x,y,z) in TabParking:
         i=i+1
-        print("insert into PARKING values ({} ,'{}' ,{} ,'{}' ,{} ,{} );".format(i, x , 50*randint(2,6) , z ,0.5*randint(4, 20), y) )
+        print("insert into PARKING values ({} ,'{}' ,{} ,'{}' ,{} ,{} );".format(i, x , 50*randint(1,3) , z ,0.5*randint(4, 20), y) )
     print("\n")
 
     print("commit ;")
@@ -203,10 +240,12 @@ def makeParking():
 #####COMMUNE###########
 
 TabCommune = [
-    (75056,"Paris"),(13055,"Marseille"),(69123,"Lyon"),(31555,"Toulouse"),(44109,"Nantes"),
-    (34172,"Montpellier"),(67482,"Strasbourg"),(33063,"Bordeaux"),(59350,"Lille"),(38185,"Grenoble"),
-    (37261,"Tours"),(45234,"Orléans"),(54395,"Nancy"),(86194,"Poitiers"),(17300,"La Rochelle"),
-    (33281,"Mérignac"),(33318,"Pessac")
+    #(75056,"Paris"),(13055,"Marseille"),(69123,"Lyon"),#(31555,"Toulouse"),(44109,"Nantes"),
+    #(34172,"Montpellier"),(67482,"Strasbourg"),
+    (33000,"Bordeaux"),
+    #(59350,"Lille"),(38185,"Grenoble"),
+   # (37261,"Tours"),(45234,"Orléans"),(54395,"Nancy"),(86194,"Poitiers"),(17300,"La Rochelle"),
+    (33700,"Mérignac"),(33600,"Pessac")
 ]
 
 
@@ -224,13 +263,83 @@ def makeCommune():
 
 
 
+######STATIONNEMENT#########
+
+max_stationnement = 50
+
+
+def gen_date_e(jr):
+    
+    return [jr,11,2022,6+randint(0,14),randint(0,59),00]
+
+
+def gen_date_s(date_e):
+    date_e[3]=date_e[3]+randint(0,23-date_e[3])
+    date_e[4]=date_e[4]+randint(0,59-date_e[4])
+    return date_e
+
+def gen_date_s_satu(date_e):
+    date_e[3]=22
+    date_e[4]=randint(0,59)
+    return date_e
+ 
+    
+def proba_null(jr):
+        a=32-jr
+        if((randint(1,a)/a)==1):
+            return 0
+        return 1
+        
+        
+
+def makeStationnement():
+     print("\n")
+     print("-- STATIONNEMENT")
+     print("\n")
+     for jr in range(0,8):
+         for par in range(1,10):
+             for i in range(1,max_stationnement+1-randint(0,15)):
+                 date_e=gen_date_e(jr+23)
+                 j=date_e.copy()
+                 date_s=gen_date_s_satu(j)
+                 if((jr == 2 and ( par==7 or par==3)) or (jr == 5 and ( par==2 or par==8))):
+                     if(proba_null(jr+23)):
+                          print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],par,i,imm[randint(0,max_vehicule -1)]) )
+                     else:
+                          print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , {} , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],'null',par,i,imm[randint(0,max_vehicule-1)]) )
+                 else:    
+                     date_e=gen_date_e(jr+23)
+                     j=date_e.copy()
+                     date_s=gen_date_s(j)
+                     if(proba_null(jr+23)):
+                         print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],par,i,imm[randint(0,max_vehicule -1)]) )
+                     else:
+                         print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , {} , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],'null',par,i,imm[randint(0,max_vehicule-1)]) )
+        
+     print("\n")    
+     print("commit ;")
+
+
 
 
 makeVehicule()
 makeCommune()
 makeParking()
+makeStationnement()
 
-
+####################
+print("\n")
+print("-- ============================================================\n"
+"--    verification des donnees\n"
+"-- ============================================================\n"
+"select count(*),'= 500 ?','VEHICULE' from VEHICULE \n"
+"union\n"
+"select count(*),'= 99 ?','STATIONNEMENT' from STATIONNEMENT\n"
+"union\n"
+"select count(*),'= 9 ?','PARKING' from PARKING\n"
+"union\n"
+"select count(*),'= 3 ?','COMMUNE' from COMMUNE ;\n"
+)
 
 
 
