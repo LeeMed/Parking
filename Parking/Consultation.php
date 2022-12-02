@@ -94,7 +94,7 @@ if (array_key_exists('submit', $_POST)) {
                         SELECT NUMERO_DE_PLACE + 1 AS NUMERO_DE_PLACE
                         FROM NUMS
                         WHERE NUMS.NUMERO_DE_PLACE < (SELECT CAPACITE FROM PARKING
-                        WHERE ID_PARKING=1)
+                        WHERE ID_PARKING=$parking)
                     )
                     
                     SELECT NUMERO_DE_PLACE
@@ -135,11 +135,30 @@ if (array_key_exists('submit', $_POST)) {
   } else {
     echo "0 results";
   }
+
   ?>
 
   <h1> La liste des parkings saturés à un moment donné </h1>
 
 <?php
+
+  $fullParking = "SELECT NOM_PARKING
+  from (select S.ID_PARKING, NOM_PARKING, P.CAPACITE, COUNT(*) from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING
+  where (S.DATE_STATIONNEMENT_E <= '$d' AND (S.DATE_STATIONNEMENT_S >= '$d' OR S.DATE_STATIONNEMENT_S is null))
+  group by S.ID_PARKING, NOM_PARKING
+  having COUNT(*) = P.CAPACITE) AS T;";
+  $resultFullParking = $conn->query($fullParking);
+
+  if($resultFullParking->num_rows > 0){
+    while($row = $resultFullParking->fetch_assoc()){
+      echo $row["NOM_PARKING"];
+    }
+  }else{
+    echo "0 parking saturé";
+  }
+    
+
+
 }
 ?>
 

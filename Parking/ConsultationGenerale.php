@@ -43,8 +43,6 @@ function changeDate($date)
 if (array_key_exists('submit', $_POST)) {
   $d = changeDate($_POST['datetime']);
 
-
-
   $sql = "SELECT * FROM COMMUNE";
   $result = $conn->query($sql);
 
@@ -108,7 +106,7 @@ if (array_key_exists('submit', $_POST)) {
                     <?php
                     $parking = $row["ID_PARKING"];
                     $resultPlaceNotDisp = $conn->query("SELECT * FROM STATIONNEMENT
-                    WHERE ID_PARKING = $parking AND DATE_STATIONNEMENT_E <= '$d' AND (DATE_STATIONNEMENT_S is NULL OR DATE_STATIONNEMENT_S >= '$d')");
+                    WHERE ID_PARKING = $parking AND DATE_STATIONNEMENT_E <= '$d' AND (DATE_STATIONNEMENT_S is NULL OR DATE_STATIONNEMENT_S >= '$d');");
 
                     if ($resultPlaceNotDisp->num_rows > 0) {
                       while ($row = $resultPlaceNotDisp->fetch_assoc()) {
