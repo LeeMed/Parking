@@ -1,4 +1,12 @@
 <?php echo file_get_contents("html/header.html"); ?>
+<h1>
+  <script>
+    if (window.history.replaceState) {
+      window.history.replaceState(null, null, window.location.href);
+    }
+  </script>
+  Consultation :
+</h1>
 <?php
 $servername = "localhost";
 $username = "root";
@@ -106,9 +114,11 @@ if (array_key_exists('submit', $_POST)) {
 
                     if ($resultPlaceDisp->num_rows > 0) {
                       echo "Numero des places dispo : ";
-                      while ($row = $resultPlaceDisp->fetch_assoc()) {
-                        echo "$row[NUMERO_DE_PLACE],";
-                      }
+                      echo "<div style='width: 80vw; overflow-x: scroll;'>";
+                        while ($row = $resultPlaceDisp->fetch_assoc()) {
+                          echo "$row[NUMERO_DE_PLACE],";
+                        }
+                      echo "</div>";
                     }
                     ?>
 
@@ -155,6 +165,27 @@ if (array_key_exists('submit', $_POST)) {
     }
   }else{
     echo "0 parking saturé";
+  }
+?>
+
+<h1> 2 cars </h1>
+
+<?php
+
+  $cars = "SELECT NUMERO_IMMATRICULATION
+  from (select DISTINCT S.ID_PARKING , NUMERO_IMMATRICULATION from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING
+      where (S.DATE_STATIONNEMENT_E <= '$d' AND (S.DATE_STATIONNEMENT_S >= '$d' OR S.DATE_STATIONNEMENT_S is null)) ) AS T
+  group by NUMERO_IMMATRICULATION
+  having COUNT(*) >= 2;";
+
+  $resultCars = $conn->query($cars);
+
+  if($resultCars->num_rows > 0){
+    while($row = $resultCars->fetch_assoc()){
+      echo $row["NUMERO_IMMATRICULATION"] . "<br>";
+    }
+  }else{
+    echo "0 results";
   }
     
 
