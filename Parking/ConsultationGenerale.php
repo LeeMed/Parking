@@ -22,13 +22,23 @@ if ($conn->connect_error) {
 }
 
 
+
 ?>
+
+
 <form method="POST">
-  Please enter a date and time to have the results
+  <P>Veuillez entrer une date et une heure pour obtenir les résultats suivant : </P>
+  <P>
+    - Liste des communes <br>
+    - Liste des parkings par communes <br>
+    - Liste des stationnement par parking
+  </P>
+
   <br>
-  <input type="datetime-local" name="datetime" min="2022-11-24T00:00" max="2022-11-30T23:59">
+  <input type="datetime-local" name="datetime" min="2022-11-23T00:00" max="2022-11-30T23:59">
   <br>
   <input type="submit" value="submit" name="submit">
+  <br>
 </form>
 
 <?php
@@ -67,21 +77,21 @@ if (array_key_exists('submit', $_POST)) {
 
           if ($resultParking->num_rows > 0) {
           ?>
-            <div class="parking-wrapper" style=" height: auto; width: 80vw; display: grid; grid-template-columns: auto; column-gap: 1vh;">
-              <table class="parking" style="width: 80vw; margin-left: 7vh; text-align: left; display: none;">
+            <div class="parking-wrapper" style=" height: auto; display: grid; grid-template-columns: auto; column-gap: 1vh; margin-left: 7vh; text-align: left;">
+              <table class="parking" style="display: none; width: 80vw;">
                 <tr>
-                  <th style="width: 10%; text-align: center;">ID</th>
-                  <th style="width: 35%; text-align: center;">Nom</th>
-                  <th style="width: 10%; text-align: center;">Capacité</th>
-                  <th style="width: 35%; text-align: center;">Adresse</th>
-                  <th style="width: 10%; text-align: center;">Tarif</th>
+                  <td style="width: 10%; text-align: center;">ID</td>
+                  <td style="width: 35%; text-align: center;">Nom</td>
+                  <td style="width: 10%; text-align: center;">Capacité</td>
+                  <td style="width: 35%; text-align: center;">Adresse</th>
+                  <td style="width: 10%; text-align: center;">Tarif</td>
                 </tr>
               </table>
               <?php
               while ($row = $resultParking->fetch_assoc()) {
               ?>
 
-                <div class='parking' style="border: none; display: none; text-align: left; margin-left: 7vh; background-color: transparent; cursor: pointer; "> <?php                                                                                                                                              ?>
+                <div class='parking' style="border: none; display: none; background-color: transparent; cursor: pointer; "> <?php                                                                                                                                              ?>
                   <table style="width: 80vw;" class="parking-button">
                     <tr style="background-color: grey; cursor: pointer; ">
                       <td style="width: 10%;  text-align: center;"><?php echo $row["ID_PARKING"] ?></td>
@@ -112,7 +122,7 @@ if (array_key_exists('submit', $_POST)) {
                       while ($row = $resultPlaceNotDisp->fetch_assoc()) {
                     ?>
 
-                        <table class="place" style="width: 80vw; margin-left: 7vh; text-align: left; isplay: none;">
+                        <table class="place" style="width: 80vw; margin-left: 7vh; text-align: left; display: none;">
                           <tr>
                             <th style="width: 20%; text-align: center;"><?php echo $row['ID_STATIONNEMENT']; ?></th>
                             <th style="width: 20%; text-align: center;"><?php echo $row['DATE_STATIONNEMENT_E']; ?></th>

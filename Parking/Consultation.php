@@ -21,9 +21,14 @@ if ($conn->connect_error) {
 }
 ?>
 <form method="POST">
-  Please enter a date and time to have the results
+  <P>Veuillez entrer une date et une heure pour obtenir les résultats suivant : </P>
+  <P>
+    - Liste des places disponibles <br>
+    - La liste des parkings saturés à un moment donné <br>
+    - Liste de voitures qui se sont garées dans deux parkings différents au cours d'une journée
+  </P>
   <br>
-  <input type="datetime-local" name="datetime" min="2022-11-24T00:00" max="2022-11-30T23:59">
+  <input type="datetime-local" name="datetime" min="2022-11-23T00:00" max="2022-11-30T23:59">
   <br>
   <input type="submit" value="submit" name="submit">
 </form>
@@ -41,7 +46,7 @@ if (array_key_exists('submit', $_POST)) {
   $d = changeDate($_POST['datetime']);
 ?>
   <h2>
-    Liste des places disponibles :
+    Liste des places disponibles
   </h2>
   <?php
   $sql = "SELECT * FROM COMMUNE";
@@ -160,15 +165,28 @@ if (array_key_exists('submit', $_POST)) {
   $resultFullParking = $conn->query($fullParking);
 
   if($resultFullParking->num_rows > 0){
+    ?>
+    <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+      <tr>
+        <th style="width: 100%; text-align: center;">Nom Parking</th>
+      </tr>
+    </table>
+    <?php
     while($row = $resultFullParking->fetch_assoc()){
-      echo $row["NOM_PARKING"];
+      ?>
+      <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+        <tr>
+          <td style="width: 100%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
+        </tr>
+      </table>
+      <?php 
     }
   }else{
-    echo "0 parking saturé";
+    echo "Il n'y a pas de parking saturé dans l'heure et la date choisies.";
   }
 ?>
 
-<h2> 2 cars </h2>
+<h2> Liste de voitures qui se sont garées dans deux parkings différents au cours d'une journée </h2>
 
 <?php
 
@@ -181,8 +199,21 @@ if (array_key_exists('submit', $_POST)) {
   $resultCars = $conn->query($cars);
 
   if($resultCars->num_rows > 0){
+    ?>
+    <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+      <tr>
+        <th style="width: 100%; text-align: center;">Numéro d'immatriculation</th>
+      </tr>
+    </table>
+    <?php
     while($row = $resultCars->fetch_assoc()){
-      echo $row["NUMERO_IMMATRICULATION"] . "<br>";
+      ?>
+      <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+        <tr>
+          <td style="width: 100%; text-align: center;"><?php echo $row["NUMERO_IMMATRICULATION"];  ?></td>
+        </tr>
+      </table>
+      <?php 
     }
   }else{
     echo "0 results";
