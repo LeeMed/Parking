@@ -81,7 +81,7 @@ if ($resultImmatriculation->num_rows > 0) {
     <input type="submit" value="submit1" name="submit1">
   </form>
 
-  <?php
+<?php
 
 }
 if (array_key_exists('submit1', $_POST)) {
@@ -91,7 +91,7 @@ if (array_key_exists('submit1', $_POST)) {
   <h2>
     Le cout moyen du stationnement d'un véhicule
   </h2>
-<?php
+  <?php
 
   $stat3 = "SELECT NUMERO_IMMATRICULATION, AVG(COUT_STAT) AS COUT_AVG
     from (select NUMERO_IMMATRICULATION,NOM_PARKING, SUM(P.TARIF * TIMESTAMPDIFF(HOUR,S.DATE_STATIONNEMENT_E,S.DATE_STATIONNEMENT_S)) AS COUT_STAT 
@@ -175,37 +175,37 @@ if (array_key_exists('submit1', $_POST)) {
 </h2>
 
 <?php
-  $stat4 = "SELECT S.ID_PARKING, NOM_PARKING, COUNT(*) as NOMBRE
+$stat4 = "SELECT S.ID_PARKING, NOM_PARKING, COUNT(*) as NOMBRE
   from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING
   group by S.ID_PARKING, NOM_PARKING
   order by COUNT(*) asc
   limit 5;";
-  $resultStat4 = $conn->query($stat4);
+$resultStat4 = $conn->query($stat4);
 
-  if($resultStat4->num_rows > 0){
-    ?>
+if ($resultStat4->num_rows > 0) {
+?>
+  <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+    <tr>
+      <th style="width: 25%; text-align: center;">ID Parking</th>
+      <th style="width: 50%; text-align: center;">Nom Parking</th>
+      <th style="width: 25%; text-align: center;">Nombre de stationnement</th>
+    </tr>
+  </table>
+  <?php
+  while ($row = $resultStat4->fetch_assoc()) {
+  ?>
     <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
       <tr>
-        <th style="width: 25%; text-align: center;">ID Parking</th>
-        <th style="width: 50%; text-align: center;">Nom Parking</th>
-        <th style="width: 25%; text-align: center;">Nombre de stationnement</th>
+        <td style="width: 25%; text-align: center;"><?php echo $row["ID_PARKING"];  ?></td>
+        <td style="width: 50%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
+        <td style="width: 25%; text-align: center;"><?php echo $row["NOMBRE"];  ?></td>
       </tr>
     </table>
-    <?php
-    while($row = $resultStat4->fetch_assoc()){
-      ?>
-      <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
-        <tr>
-          <td style="width: 25%; text-align: center;"><?php echo $row["ID_PARKING"];  ?></td>
-          <td style="width: 50%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
-          <td style="width: 25%; text-align: center;"><?php echo $row["NOMBRE"];  ?></td>
-        </tr>
-      </table>
-      <?php 
-    }
-  }else{
-    echo "stat4";
+<?php
   }
+} else {
+  echo "stat4";
+}
 
 ?>
 
@@ -222,29 +222,77 @@ group by C.CODE_POSTALE
 order by COUNT(*) desc;";
 $resultStat6 = $conn->query($stat6);
 
-if($resultStat6->num_rows > 0){
-  ?>
+if ($resultStat6->num_rows > 0) {
+?>
   <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+    <tr>
+      <th style="width: 50%; text-align: center;">Code postal</th>
+      <th style="width: 50%; text-align: center;">Nombre de stationnement</th>
+    </tr>
+  </table>
+  <?php
+  while ($row = $resultStat6->fetch_assoc()) {
+  ?>
+    <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
       <tr>
-        <th style="width: 50%; text-align: center;">Code postal</th>
-        <th style="width: 50%; text-align: center;">Nombre de stationnement</th>
+        <td style="width: 50%; text-align: center;"><?php echo $row["CODE_POSTALE"];  ?></td>
+        <td style="width: 50%; text-align: center;"><?php echo $row["NBR_STAT"];  ?></td>
       </tr>
     </table>
-    <?php
-  while($row = $resultStat6->fetch_assoc()){
-    ?>
-      <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
-        <tr>
-          <td style="width: 50%; text-align: center;"><?php echo $row["CODE_POSTALE"];  ?></td>
-          <td style="width: 50%; text-align: center;"><?php echo $row["NBR_STAT"];  ?></td>
-        </tr>
-      </table>
-    <?php
+  <?php
   }
 }
 
-
 ?>
+<h2>Classement des parking les plus rentables par commune</h2>
+<?php
+
+$sql = "SELECT * FROM COMMUNE";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  $i = 1;
+    while ($row = $result->fetch_assoc()) {
+    ?>
+
+        <div style="border: 1px solid rgb(200, 200, 200); width: 14vw; text-align: center; cursor: pointer;"><?php echo $i . "- " . $row["NOM_DE_COMMUNE"] ?></div>
+        <?php
+        $i = $i + 1;
+        $commune = $row["NOM_DE_COMMUNE"];
+        $stat5 = "SELECT NOM_PARKING, NOM_DE_COMMUNE, SUM(COUT_STAT) AS cout_stationnement
+      from (select NUMERO_IMMATRICULATION,NOM_PARKING, NOM_DE_COMMUNE, SUM(P.TARIF * TIMESTAMPDIFF(HOUR,S.DATE_STATIONNEMENT_E,S.DATE_STATIONNEMENT_S)) AS COUT_STAT
+              from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING inner join COMMUNE C on C.CODE_POSTALE = P.CODE_POSTALE
+              group by NUMERO_IMMATRICULATION,NOM_PARKING
+              ) AS T
+      group by NOM_PARKING, NOM_DE_COMMUNE
+      having NOM_DE_COMMUNE = '$commune'
+      order by SUM(COUT_STAT) desc;";
+        $resultStat5 = $conn->query($stat5);
+
+        if ($resultStat5->num_rows > 0) {
+        ?>
+          <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+            <tr>
+              <th style="width: 50%; text-align: center;">Nom parking</th>
+              <th style="width: 50%; text-align: center;">Cout de stationnement</th>
+            </tr>
+          </table>
+          <?php
+          while ($row = $resultStat5->fetch_assoc()) {
+          ?>
+            <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+              <tr>
+                <td style="width: 50%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
+                <td style="width: 50%; text-align: center;"><?php echo $row["cout_stationnement"];  ?></td>
+              </tr>
+            </table>
+    <?php
+          }
+        }
+      }
+    }
+
+    ?>
 
 
-<?php echo file_get_contents("html/footer.html"); ?>
+    <?php echo file_get_contents("html/footer.html"); ?>
