@@ -24,7 +24,7 @@ if ($conn->connect_error) {
   <P>Veuillez entrer une date et une heure pour obtenir les résultats suivant : </P>
   <P>
     - Liste des places disponibles <br>
-    - La liste des parkings saturés à un moment donné <br>
+    - La liste des parkings saturés à un moment donné (pour avoir un résultat non nul il faut choisir le 25 nov 2022 22h00)<br>
     - Liste de voitures qui se sont garées dans deux parkings différents au cours d'une journée
   </P>
   <br>

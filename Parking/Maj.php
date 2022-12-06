@@ -33,7 +33,7 @@ if ($conn->connect_error) {
 
 
 <form method="POST">
-    <P>Veuillez entrer les informations sur la voiture.</P>
+    <P>Veuillez entrer les données de la voiture.</P>
     <br>
 
     <label for="immatriculation">Numéro d'immatriculation du véhicule :</label>
@@ -48,7 +48,7 @@ if ($conn->connect_error) {
 
     <label for="dmc">DMC : </label>
     <br>
-    <input type="datetime-local" name="dmc"  max="2022-11-30T23:59">
+    <input type="datetime-local" name="dmc" max="2022-11-30T23:59">
     <br>
 
     <label for="km">Kilométrage :</label>
@@ -74,13 +74,15 @@ if ($conn->connect_error) {
 
 <?php
 
+function change($date)
+{
+    $date = str_replace('T', ' ', $date);
+    return $date;
+}
+
 if (array_key_exists('submit', $_POST)) {
 
-    function change($date)
-    {
-        $date = str_replace('T', ' ', $date);
-        return $date;
-    }
+
 
     $immatriculation = $_POST["immatriculation"];
     $marque = $_POST["marque"];
@@ -94,7 +96,6 @@ if (array_key_exists('submit', $_POST)) {
     } else {
         echo "Error: " . $insertVehicule . "<br>" . $conn->error;
     }
-
 }
 
 ?>
@@ -197,6 +198,130 @@ if ($resultIdParking->num_rows > 0) {
     echo "il n'y a pas de parking où mettre ce stationnement";
 }
 
+
 ?>
+
+
+<h2>
+    Modification du tarif d'un parking
+</h2>
+
+<form method="POST">
+    <P>Veuillez entrer l'id du parking et le nouveau tarif. </P>
+    <br>
+    <label for="parking">ID Parking :</label>
+    <br>
+    <input type="text" id="parking" name="parking" list="parking-list">
+
+    <datalist id="parking-list">
+        <?php
+        while ($row = $resultIdParking->fetch_assoc()) {
+        ?>
+            <option><?php echo $row["ID_PARKING"]; ?></option>
+        <?php
+        }
+        ?>
+    </datalist>
+    <br>
+    <label for="tarif">Tarif :</label>
+    <br>
+    <input type="number" id="tarif" name="tarif">
+    <br>
+    <input type="submit" value="submit" name="submitTarif">
+    <br>
+</form>
+
+<?php
+if (array_key_exists('submitTarif', $_POST)) {
+    $tarif = $_POST["tarif"];
+    $parking = $_POST["parking"];
+    $updateTarif = "UPDATE PARKING set TARIF = $tarif where ID_PARKING = $parking;";
+    if ($conn->query($updateTarif) === TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $updateTarif . "<br>" . $conn->error;
+    }
+}
+
+
+?>
+
+
+<h2>
+    Ajout d'une date de sortie d'un parking pour une voiture
+</h2>
+
+
+<?php
+$stationnement = "SELECT ID_STATIONNEMENT FROM STATIONNEMENT order by ID_STATIONNEMENT desc";
+$resultStationnement = $conn->query($stationnement);
+
+if ($resultStationnement->num_rows > 0) {
+?>
+
+    <form method="POST">
+        <P>Veuillez entrer l'id du stationnement et la date de sortie. </P>
+        <br>
+        <label for="stationnement">Numéro d'imatriculation :</label>
+        <br>
+        <input type="text" id="stationnement" name="stationnement" list="stationnement-list">
+
+        <datalist id="stationnement-list">
+            <?php
+            while ($row = $resultStationnement->fetch_assoc()) {
+            ?>
+                <option><?php echo $row["ID_STATIONNEMENT"]; ?></option>
+            <?php
+            }
+            ?>
+        </datalist>
+        <br>
+        <label for="sortie">Date de sortie : </label>
+        <br>
+        <input type="datetime-local" name="sortie" min='$e' max="2022-11-30T23:59">
+        <br>
+        <input type="submit" value="submit" name="submitDate">
+        <br>
+    </form>
+
+<?php
+
+    if (array_key_exists('submitDate', $_POST)) {
+        $stat = $_POST["stationnement"];
+
+        $dateE = "SELECT DATE_STATIONNEMENT_E FROM STATIONNEMENT WHERE ID_STATIONNEMENT = $stat";
+        $resultDateE = $conn->query($dateE);
+        while ($row = $resultDateE->fetch_assoc()) {
+            $e = $row["DATE_STATIONNEMENT_E"];
+        }
+        $newDate = change($_POST["sortie"]);
+
+        if ($newDate < $e) {
+            echo "Vous ne pouvez pas choisir une date de sortie qui précède la date d'entrée.";
+        } else {
+
+
+            $dateS = "SELECT DATE_STATIONNEMENT_S FROM STATIONNEMENT 
+            WHERE ID_STATIONNEMENT = $stat;";
+            $resultDateS = $conn->query($dateS);
+            while ($row = $resultDateS->fetch_assoc()) {
+                $s = $row["DATE_STATIONNEMENT_S"];
+            }
+
+            if ($s == null) {
+                $updateS = "UPDATE STATIONNEMENT set DATE_STATIONNEMENT_S='$newDate' where ID_STATIONNEMENT=$stat;";
+                if ($conn->query($updateS) === TRUE) {
+                    echo "New record created successfully";
+                } else {
+                    echo "Error: " . $updateS . "<br>" . $conn->error;
+                }
+            } else {
+                echo "La date de sortie de ce stationnement est déjà non nulle dans la base de données";
+            }
+        }
+    }
+}
+?>
+
 
 <?php echo file_get_contents("html/footer.html"); ?>
