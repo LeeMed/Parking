@@ -9,6 +9,6 @@ L'objectif du projet est de mettre en ÷uvre, sur un cas pratique, les notions e
 
 <h2>Schéma conceptuel</h2>
 
-<img src = "./img/schema_conceptuel.png" style="width:800px;height:600px;">
+<img src = "./img/schema_conceptuel_sgbd.png" style="width:800px;height:600px;">
 
 <?php echo file_get_contents("html/footer.html"); ?>

@@ -138,6 +138,8 @@ if (array_key_exists('submit', $_POST)) {
 
                     <?php
                       }
+                    }else{
+                      echo "Aucun stationnement dans ce parking à cette date.";
                     }
                     ?>
 
@@ -150,7 +152,7 @@ if (array_key_exists('submit', $_POST)) {
 
             <?php
           } else {
-            echo "0 results";
+            echo "Aucun parking dans cette commune.";
           }
             ?>
             </div>
@@ -162,7 +164,7 @@ if (array_key_exists('submit', $_POST)) {
 
 <?php
   } else {
-    echo "0 results";
+    echo "Il n'y a aucune commune dans cette base de données.";
   }
 }
 $conn->close();

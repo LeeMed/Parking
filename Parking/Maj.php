@@ -92,7 +92,7 @@ if (array_key_exists('submit', $_POST)) {
 
     $insertVehicule = "INSERT into VEHICULE values ('$immatriculation' ,'$marque' ,'$dmc' , '$km', '$etat');";
     if ($conn->query($insertVehicule) === TRUE) {
-        echo "New record created successfully";
+        echo "Ce véhicule a été ajouté à la base de données";
     } else {
         echo "Error: " . $insertVehicule . "<br>" . $conn->error;
     }
@@ -189,7 +189,7 @@ if ($resultIdParking->num_rows > 0) {
         $insertStationnement = "INSERT into STATIONNEMENT values ($id_stationnement , '$date' , null , $ID , $place , '$imm' );";
 
         if ($conn->query($insertStationnement) === TRUE) {
-            echo "New record created successfully";
+            echo "Ce stationnement a été ajouté à la base de données avec succès";
         } else {
             echo "Error: " . $insertStationnement . "<br>" . $conn->error;
         }
@@ -237,7 +237,7 @@ if (array_key_exists('submitTarif', $_POST)) {
     $parking = $_POST["parking"];
     $updateTarif = "UPDATE PARKING set TARIF = $tarif where ID_PARKING = $parking;";
     if ($conn->query($updateTarif) === TRUE) {
-        echo "New record created successfully";
+        echo "Le tarif de ce parking a été mis à jour";
     } else {
         echo "Error: " . $updateTarif . "<br>" . $conn->error;
     }
@@ -278,7 +278,7 @@ if ($resultStationnement->num_rows > 0) {
         <br>
         <label for="sortie">Date de sortie : </label>
         <br>
-        <input type="datetime-local" name="sortie" min='$e' max="2022-11-30T23:59">
+        <input type="datetime-local" name="sortie" min='2022-11-23T00:00' max="2022-11-30T23:59">
         <br>
         <input type="submit" value="submit" name="submitDate">
         <br>
@@ -311,7 +311,7 @@ if ($resultStationnement->num_rows > 0) {
             if ($s == null) {
                 $updateS = "UPDATE STATIONNEMENT set DATE_STATIONNEMENT_S='$newDate' where ID_STATIONNEMENT=$stat;";
                 if ($conn->query($updateS) === TRUE) {
-                    echo "New record created successfully";
+                    echo "La date de sortie a été ajoutée avec succès";
                 } else {
                     echo "Error: " . $updateS . "<br>" . $conn->error;
                 }
@@ -323,5 +323,50 @@ if ($resultStationnement->num_rows > 0) {
 }
 ?>
 
+
+<h2>
+    Supression d'un véhicule
+</h2>
+
+
+<?php
+$immatriculation = "SELECT NUMERO_IMMATRICULATION FROM VEHICULE";
+$resultImmatriculation = $conn->query($immatriculation);
+
+if ($resultImmatriculation->num_rows > 0) {
+?>
+
+    <form method="POST">
+        <P>Veuillez entrer un numéro d'immatriculation du véhicule que vous souhaitez supprimer. </P>
+
+        <input type="text" id="immatriculation" name="immatriculation" list="immatriculation-list">
+
+        <datalist id="immatriculation-list">
+            <?php
+            while ($row = $resultImmatriculation->fetch_assoc()) {
+            ?>
+                <option><?php echo $row["NUMERO_IMMATRICULATION"]; ?></option>
+            <?php
+            }
+            ?>
+        </datalist>
+        <input type="submit" value="submit" name="submitImm">
+    </form>
+<?php
+}
+
+if (array_key_exists('submitImm', $_POST)){
+    $immat = $_POST["immatriculation"];
+    $deleteVehicule = "DELETE FROM VEHICULE WHERE NUMERO_IMMATRICULATION = '$immat';";
+    if ($conn->query($deleteVehicule) === TRUE) {
+        echo "Ce véhicule est supprimé de la base de données et tous les stationnements qui lui sont liés sont également supprimés.";
+    } else {
+        echo "Error: " . $deleteVehicule . "<br>" . $conn->error;
+    }
+
+}
+
+
+?>
 
 <?php echo file_get_contents("html/footer.html"); ?>
