@@ -65,13 +65,16 @@ create table COMMUNE
 
 alter table PARKING
     add constraint fk1_parking foreign key (CODE_POSTALE)
-       references COMMUNE(CODE_POSTALE);
+       references COMMUNE(CODE_POSTALE)
+       on delete cascade;
 
 alter table STATIONNEMENT
     add constraint fk1_stationnement foreign key (ID_PARKING)
-       references PARKING(ID_PARKING);
+       references PARKING(ID_PARKING)
+       on delete cascade;
 
 alter table STATIONNEMENT
     add constraint fk2_stationnement foreign key (NUMERO_IMMATRICULATION)
-       references VEHICULE(NUMERO_IMMATRICULATION);
+       references VEHICULE(NUMERO_IMMATRICULATION)
+       on delete cascade;
 

@@ -78,7 +78,7 @@ def makeVehicule():
     print("\n")
     print("-- VEHICULE")
     print("\n")
-    for i in range(0,max_vehicule):
+    for i in range(0,max_vehicule+2):
         dmc=dmc_generator()
         kil=kil_generator(dmc[2])
         imm.append(imm_generator())
@@ -219,22 +219,25 @@ TabParking=[("Parking Louvre Pyramides",75056,"15 rue des Pyramides"),
 ("Parking Joinville ",37261,"23 rue de Paris"),
 """
 
-
 def makeParking():
     print("\n")
     print("-- Parking")
     print("\n")
-    i =0
-    for (x,y,z) in TabParking:
-        i=i+1
-        print("insert into PARKING values ({} ,'{}' ,{} ,'{}' ,{} ,{} );".format(i, x , 50*randint(1,3) , z ,0.5*randint(4, 20), y) )
+    print("insert into PARKING values (1 ,'Parking Pey Berland' ,100,'Place pey berland' ,3.0 ,33000 );")
+    print("insert into PARKING values (2 ,'Parking Gambetta' ,50,'Rue Edmond Michelet' ,1.5 ,33000 );")
+    print("insert into PARKING values (3 ,'Parking Alsace-Lorraine' ,50 ,'21 cours Alsace-Lorraine' ,2.0 ,33000 );")
+    print("insert into PARKING values (4 ,'Parking Carreire' ,75 ,'4 rue du Docteur Rocaz' ,1.5 ,33600 );")
+    print("insert into PARKING values (5 ,'Parking Hôtel PREMIERE CLASSE PESSAC' ,75 ,'4 Bis Avenue Antoine-Becquerel' ,2.0 ,33600 );")
+    print("insert into PARKING values (6 ,'Parking Côte D Argent' ,50 ,'23 Chemin Pomerol' ,1.0 ,33600 );")
+    print("insert into PARKING values (7 ,'Parking Monge' ,50 ,'17 rue Gracieuse' ,2.5 ,33700 );")
+    print("insert into PARKING values (8 ,'Parking Poliveau' ,50 ,'39 bis rue Poliveau' ,1.5 ,33700 );")
+    print("insert into PARKING values (9 ,'Parking Champagny' ,80 ,'Face au 13 rue Casimir Perrier' ,1.5 ,33700 );")
     print("\n")
-
     print("commit ;")
 
 
 
-
+parCap=[100,90,50,75,75,50,50,100,80]
 
 
 #####COMMUNE###########
@@ -285,12 +288,25 @@ def gen_date_s_satu(date_e):
  
     
 def proba_null(jr):
-        a=32-jr
-        if((randint(1,a)/a)==1):
+    if((randint(1,3)*jr)==30):
             return 0
-        return 1
-        
-        
+    return 1
+
+
+
+def samePar():
+     date_e=[30,11,2022,8,30,00]
+     date_s=[30,11,2022,12,45,00]
+     print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(3601,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],4,56,imm[max_vehicule]) )
+     date_e=[30,11,2022,8,00,00]
+     date_s=[30,11,2022,13,45,00]
+     print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(3602,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],4,57,imm[max_vehicule+1]) )
+     date_e=[30,11,2022,15,30,00]
+     date_s=[30,11,2022,20,45,00]
+     print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(3603,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],9,75,imm[max_vehicule]) )
+     date_e=[30,11,2022,14,30,00]
+     date_s=[30,11,2022,21,45,00]
+     print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(3604,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],9,76,imm[max_vehicule+1]) )
 
 def makeStationnement():
      print("\n")
@@ -298,23 +314,24 @@ def makeStationnement():
      print("\n")
      for jr in range(0,8):
          for par in range(1,10):
-             for i in range(1,max_stationnement+1-randint(0,15)):
+             for i in range(1,max_stationnement+1):
                  date_e=gen_date_e(jr+23)
                  j=date_e.copy()
-                 date_s=gen_date_s_satu(j)
                  if((jr == 2 and ( par==7 or par==3)) or (jr == 5 and ( par==2 or par==8))):
+                     date_s=gen_date_s_satu(j)
                      if(proba_null(jr+23)):
                           print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],par,i,imm[randint(0,max_vehicule -1)]) )
                      else:
                           print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , {} , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],'null',par,i,imm[randint(0,max_vehicule-1)]) )
                  else:    
-                     date_e=gen_date_e(jr+23)
-                     j=date_e.copy()
                      date_s=gen_date_s(j)
                      if(proba_null(jr+23)):
                          print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , '{}-{}-{} {}:{}:{}' , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],date_s[2],date_s[1],date_s[0],date_s[3],date_s[4],date_s[5],par,i,imm[randint(0,max_vehicule -1)]) )
                      else:
                          print("insert into STATIONNEMENT values ({} , '{}-{}-{} {}:{}:{}' , {} , {} , {} , '{}' );".format(i+50*(par-1)+450*jr,date_e[2],date_e[1],date_e[0],date_e[3],date_e[4],date_e[5],'null',par,i,imm[randint(0,max_vehicule-1)]) )
+
+
+     samePar()    
         
      print("\n")    
      print("commit ;")
@@ -332,9 +349,9 @@ print("\n")
 print("-- ============================================================\n"
 "--    verification des donnees\n"
 "-- ============================================================\n"
-"select count(*),'= 500 ?','VEHICULE' from VEHICULE \n"
+"select count(*),'= 402 ?','VEHICULE' from VEHICULE \n"
 "union\n"
-"select count(*),'= 99 ?','STATIONNEMENT' from STATIONNEMENT\n"
+"select count(*),'=  3604','STATIONNEMENT' from STATIONNEMENT\n"
 "union\n"
 "select count(*),'= 9 ?','PARKING' from PARKING\n"
 "union\n"

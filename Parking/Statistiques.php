@@ -24,12 +24,12 @@ if ($conn->connect_error) {
 
 ?>
 <form method="POST">
-  <P>Veuillez entrer une date et une heure pour obtenir les résultats suivant : </P>
+  <P>Veuillez entrer une heure pour obtenir le résultat suivant : </P>
   <P>
     - Moyenne du nombre de places disponibles par parking
   </P>
   <br>
-  <input type="datetime-local" name="datetime" min="2022-11-23T00:00" max="2022-11-30T23:59">
+  <input type="time" name="datetime" min="00:00" max="23:59">
   <br>
   <input type="submit" value="submit" name="submit">
 </form>
@@ -47,9 +47,37 @@ if (array_key_exists('submit', $_POST)) {
   $d = changeDate($_POST['datetime']);
 ?>
   <h2>
-    Moyenne du nombre de places disponibles par parking
+    Moyenne du nombre de places disponibles par parking à un moment donné
   </h2>
+  <?php
+  $stat1 = "SELECT NOM_PARKING, AVG(PLACE_DISPO) AS AVG_PLACE
+  from(select NOM_PARKING,CONVERT(S.DATE_STATIONNEMENT_E,DATE),CAPACITE - COUNT(*) AS PLACE_DISPO
+      from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING
+          where ( CONCAT(CONVERT(S.DATE_STATIONNEMENT_E,DATE), ' $d') between S.DATE_STATIONNEMENT_E and S.DATE_STATIONNEMENT_S)
+          group by NOM_PARKING,CONVERT(S.DATE_STATIONNEMENT_E,DATE)) AS T
+  group by NOM_PARKING;";
+  $resultStat1 = $conn->query($stat1);
+
+  if ($resultStat1->num_rows > 0) {
+  ?>
+    <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+      <tr>
+        <th style="width: 50%; text-align: center;">Nom Parking</th>
+        <th style="width: 50%; text-align: center;">Moyenne des place disponible</th>
+      </tr>
+    </table>
+    <?php
+    while ($row = $resultStat1->fetch_assoc()) {
+    ?>
+      <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+        <tr>
+          <td style="width: 50%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
+          <td style="width: 50%; text-align: center;"><?php echo $row["AVG_PLACE"];  ?></td>
+        </tr>
+      </table>
 <?php
+    }
+  }
 }
 
 ?>
@@ -239,7 +267,7 @@ if ($resultStat6->num_rows > 0) {
         <td style="width: 50%; text-align: center;"><?php echo $row["NBR_STAT"];  ?></td>
       </tr>
     </table>
-  <?php
+<?php
   }
 }
 
@@ -252,14 +280,14 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
   $i = 1;
-    while ($row = $result->fetch_assoc()) {
-    ?>
+  while ($row = $result->fetch_assoc()) {
+?>
 
-        <div style="border: 1px solid rgb(200, 200, 200); width: 14vw; text-align: center; cursor: pointer;"><?php echo $i . "- " . $row["NOM_DE_COMMUNE"] ?></div>
-        <?php
-        $i = $i + 1;
-        $commune = $row["NOM_DE_COMMUNE"];
-        $stat5 = "SELECT NOM_PARKING, NOM_DE_COMMUNE, SUM(COUT_STAT) AS cout_stationnement
+    <div style="border: 1px solid rgb(200, 200, 200); width: 14vw; text-align: center; cursor: pointer;"><?php echo $i . "- " . $row["NOM_DE_COMMUNE"] ?></div>
+    <?php
+    $i = $i + 1;
+    $commune = $row["NOM_DE_COMMUNE"];
+    $stat5 = "SELECT NOM_PARKING, NOM_DE_COMMUNE, SUM(COUT_STAT) AS cout_stationnement
       from (select NUMERO_IMMATRICULATION,NOM_PARKING, NOM_DE_COMMUNE, SUM(P.TARIF * TIMESTAMPDIFF(HOUR,S.DATE_STATIONNEMENT_E,S.DATE_STATIONNEMENT_S)) AS COUT_STAT
               from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING inner join COMMUNE C on C.CODE_POSTALE = P.CODE_POSTALE
               group by NUMERO_IMMATRICULATION,NOM_PARKING
@@ -267,32 +295,32 @@ if ($result->num_rows > 0) {
       group by NOM_PARKING, NOM_DE_COMMUNE
       having NOM_DE_COMMUNE = '$commune'
       order by SUM(COUT_STAT) desc;";
-        $resultStat5 = $conn->query($stat5);
+    $resultStat5 = $conn->query($stat5);
 
-        if ($resultStat5->num_rows > 0) {
-        ?>
-          <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
-            <tr>
-              <th style="width: 50%; text-align: center;">Nom parking</th>
-              <th style="width: 50%; text-align: center;">Cout de stationnement</th>
-            </tr>
-          </table>
-          <?php
-          while ($row = $resultStat5->fetch_assoc()) {
-          ?>
-            <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
-              <tr>
-                <td style="width: 50%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
-                <td style="width: 50%; text-align: center;"><?php echo $row["cout_stationnement"];  ?></td>
-              </tr>
-            </table>
-    <?php
-          }
-        }
+    if ($resultStat5->num_rows > 0) {
+    ?>
+      <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+        <tr>
+          <th style="width: 50%; text-align: center;">Nom parking</th>
+          <th style="width: 50%; text-align: center;">Cout de stationnement</th>
+        </tr>
+      </table>
+      <?php
+      while ($row = $resultStat5->fetch_assoc()) {
+      ?>
+        <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
+          <tr>
+            <td style="width: 50%; text-align: center;"><?php echo $row["NOM_PARKING"];  ?></td>
+            <td style="width: 50%; text-align: center;"><?php echo $row["cout_stationnement"];  ?></td>
+          </tr>
+        </table>
+<?php
       }
     }
+  }
+}
 
-    ?>
+?>
 
 
-    <?php echo file_get_contents("html/footer.html"); ?>
+<?php echo file_get_contents("html/footer.html"); ?>
