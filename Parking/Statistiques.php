@@ -80,6 +80,8 @@ if (array_key_exists('submit', $_POST)) {
       </table>
 <?php
     }
+  }else{
+    echo "0 résultats.";
   }
 }
 
@@ -155,7 +157,7 @@ if (array_key_exists('submit1', $_POST)) {
   <?php
     }
   } else {
-    echo "0 results stat3";
+    echo "0 résultats";
   }
 
 
@@ -196,7 +198,7 @@ if (array_key_exists('submit1', $_POST)) {
 <?php
     }
   } else {
-    echo "Error in stat2";
+    echo "0 résultats";
   }
 }
 
@@ -236,7 +238,7 @@ if ($resultStat4->num_rows > 0) {
 <?php
   }
 } else {
-  echo "stat4";
+  echo "0 résultats";
 }
 
 ?>
@@ -273,6 +275,8 @@ if ($resultStat6->num_rows > 0) {
     </table>
 <?php
   }
+}else{
+  echo "0 résultats";
 }
 
 ?>
@@ -322,6 +326,8 @@ if ($result->num_rows > 0) {
       }
     }
   }
+}else{
+  echo "Il n'y a pas de communes dans cette base de données.";
 }
 
 ?>
