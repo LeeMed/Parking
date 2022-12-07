@@ -46,4 +46,14 @@ Now you can go to your favorite browser and go to localhost/X. You should now be
 - **Consultation.sql** : has all the sql statement for the **consultation** part of our inteface.
 - **statistiques.sql** : has all the sql statement for the **statistique** part of our inteface.
 - **maj.sql** : has all the sql statement for the **Mise à jour** part of our inteface.
+- **drop.sql** : Deletes the database.
+
+
+# Remark
+
+Everything works as we want in XAMPP 7.2.34 with MariaDB 10.4.17 used in phpMyAdmin.
+
+We tried using WAMPP instead of XAMPP somethings did not work, we also tried XAMPP with MySQL v5 some other things also didn't work.
+
+So everything should work if you follow the steps.
 
