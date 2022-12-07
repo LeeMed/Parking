@@ -24,9 +24,7 @@ if ($conn->connect_error) {
 
 ?>
 
-<h2>
-  Moyenne du nombre de places disponibles par parking à un moment donné
-</h2>
+
 
 <form method="POST">
   <P>Veuillez entrer une heure pour obtenir le résultat suivant : </P>
@@ -50,7 +48,11 @@ function changeDate($date)
 
 if (array_key_exists('submit', $_POST)) {
   $d = changeDate($_POST['datetime']);
-
+?>
+  <h2>
+    Moyenne du nombre de places disponibles par parking à un moment donné
+  </h2>
+  <?php
   $stat1 = "SELECT NOM_PARKING, AVG(PLACE_DISPO) AS AVG_PLACE
   from(select NOM_PARKING,CONVERT(S.DATE_STATIONNEMENT_E,DATE),CAPACITE - COUNT(*) AS PLACE_DISPO
       from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING
@@ -60,7 +62,7 @@ if (array_key_exists('submit', $_POST)) {
   $resultStat1 = $conn->query($stat1);
 
   if ($resultStat1->num_rows > 0) {
-?>
+  ?>
     <table style="width: 80vw; margin-left: 7vh; text-align: left; border: 1px solid black;">
       <tr>
         <th style="width: 50%; text-align: center;">Nom Parking</th>
@@ -83,9 +85,7 @@ if (array_key_exists('submit', $_POST)) {
 
 ?>
 
-<h2>
-  Le cout moyen du stationnement d'un véhicule
-</h2>
+
 
 <?php
 $immatriculation = "SELECT NUMERO_IMMATRICULATION FROM VEHICULE";
@@ -114,13 +114,17 @@ if ($resultImmatriculation->num_rows > 0) {
     <input type="submit" value="submit" name="submit1">
   </form>
 
-  <?php
+<?php
 
 }
 if (array_key_exists('submit1', $_POST)) {
   $imm = $_POST["immatriculation"];
+?>
+  <h2>
+    Le cout moyen du stationnement d'un véhicule
+  </h2>
 
-
+  <?php
   $stat3 = "SELECT NUMERO_IMMATRICULATION, AVG(COUT_STAT) AS COUT_AVG
     from (select NUMERO_IMMATRICULATION,NOM_PARKING, SUM(P.TARIF * TIMESTAMPDIFF(HOUR,S.DATE_STATIONNEMENT_E,S.DATE_STATIONNEMENT_S)) AS COUT_STAT 
       from STATIONNEMENT S inner join PARKING P on P.ID_PARKING = S.ID_PARKING
@@ -321,6 +325,9 @@ if ($result->num_rows > 0) {
 }
 
 ?>
+
+
+
 
 
 <?php echo file_get_contents("html/footer.html"); ?>
