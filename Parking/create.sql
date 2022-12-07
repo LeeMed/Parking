@@ -1,6 +1,6 @@
 -- ============================================================
---   Nom de la base   :  Parking                                
---   Nom de SGBD      :  MYSQL Version 8.0.31                    
+--   Nom de la base   :  mohammed                                
+--   Nom de SGBD      :  MariaDB 10.4.17                    
 --   Date de creation :  04/11/22                       
 -- ============================================================
 
