@@ -4,11 +4,22 @@
 Projet SGBD : Gestion des parkings
 </h1>
 
-L'objectif du projet est de mettre en ÷uvre, sur un cas pratique, les notions et les méthodes vues dans le module SGBD.
 
+<P>
+L'objectif du projet est de mettre en oeuvre, sur un cas pratique, les notions et les méthodes vues dans le cours SGBD.
+<br>
+Cette interface nous permet de visualiser les résultats de certaines requêtes SQL en utilisant la base de données expliquée ci-dessous par les deux schémas.
+</P>
 
 <h2>Schéma conceptuel</h2>
 
-<img src = "./img/schema_conceptuel_sgbd.png" style="width:800px;height:600px;">
+<img src = "./img/schema_conceptuel_sgbd.png" style="width:900px;height:600px;">
+
+<h2>
+    Schéma relationel
+</h2>
+
+<img src = "./img/sr1.png" style="width:900px;height:600px;">
+
 
 <?php echo file_get_contents("html/footer.html"); ?>
